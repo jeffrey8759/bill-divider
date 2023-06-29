@@ -1,0 +1,20 @@
+.formDiv {
+    margin-bottom: 10px;
+}
+.formLabel {
+    display: inline-block;
+    width: 150px;
+}
+.formInput {
+    text-align: right;
+}
+
+.calculationForm {
+    display: inline-block;
+    outline: 2px solid;
+    padding: 20px;
+}
+
+.addItemButton {
+    margin-bottom: 10px;
+}
