@@ -8,7 +8,7 @@ export default function Form() {
     const [individualCost, setIndividualCost] = useState(null);
 
     function setDefaultTaxTip(subtotal) {
-        setTax(subtotal * .10);
+        setTax(subtotal * .101);
         setTip(subtotal * .15);
     }
 
@@ -23,7 +23,7 @@ export default function Form() {
                 }} />
             </div>
             <div className={styles.formDiv}>
-                <label className={styles.formLabel}> Tax (default 10%): </label>
+                <label className={styles.formLabel}> Tax (default 10.1%): </label>
                 <span>$</span>
                 <input className={styles.formInput} type = "number" inputmode="decimal" defaultValue = {tax} value = {tax} onChange = {e => setTax(e.target.value)} />
             </div>
