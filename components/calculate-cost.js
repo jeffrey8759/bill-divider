@@ -8,15 +8,15 @@ export default function Form() {
     const [individualCost, setIndividualCost] = useState(null);
 
     function setDefaultTaxTip(subtotal) {
-        setTax(subtotal * .101);
-        setTip(subtotal * .15);
+        setTax(parseFloat(subtotal * .101).toFixed(2));
+        setTip(parseFloat(subtotal * .15).toFixed(2));
     }
 
     return (
         <form className={styles.calculationForm}>
             <div className={styles.formDiv}>
                 <label className={styles.formLabel}> Subtotal: </label>
-                <span>$</span>
+                <span>$ </span>
                 <input className={styles.formInput} type = "number" inputmode="decimal" value = {subtotal} onChange = {e => {
                     setSubtotal(e.target.value);
                     setDefaultTaxTip(e.target.value);
@@ -24,21 +24,22 @@ export default function Form() {
             </div>
             <div className={styles.formDiv}>
                 <label className={styles.formLabel}> Tax (default 10.1%): </label>
-                <span>$</span>
+                <span>$ </span>
                 <input className={styles.formInput} type = "number" inputmode="decimal" defaultValue = {tax} value = {tax} onChange = {e => setTax(e.target.value)} />
             </div>
             <div className={styles.formDiv}>
                 <label className={styles.formLabel}> Tip (default 15%): </label>
-                <span>$</span>
+                <span>$ </span>
                 <input className={styles.formInput} type = "number" inputmode="decimal" defaultValue = {tip} value = {tip} onChange = {e => setTip(e.target.value)} />
             </div>
             <div className={styles.formDiv} id='itemList'>
                 <label className={styles.formLabel}> Individual Cost: </label>
-                <span>$</span>
+                <span>$ </span>
                 <input className={styles.formInput} type = "number" inputmode="decimal" value = {individualCost} onChange = {e => setIndividualCost(e.target.value)} />
             </div>
             <div className={styles.formDiv}>
-                Amount Owed: ${calculateAmount(parseInt(subtotal), parseInt(tax), parseInt(tip), parseInt(individualCost))}
+                <label className={styles.formLabel}> Amount Owed: </label>
+                $ {calculateAmount(parseInt(subtotal), parseInt(tax), parseInt(tip), parseInt(individualCost))}
             </div>
         </form>
     );

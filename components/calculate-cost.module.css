@@ -1,5 +1,6 @@
 .formDiv {
     margin-bottom: 10px;
+    text-align: left;
 }
 .formLabel {
     display: inline-block;
@@ -7,6 +8,7 @@
 }
 .formInput {
     text-align: right;
+    width: 80px;
 }
 
 .calculationForm {
