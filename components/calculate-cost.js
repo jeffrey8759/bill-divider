@@ -19,115 +19,126 @@ export default function Form() {
     }
 
     return (
-        <form className={styles.calculationForm} action="venmo://paycharge">
-            <div className={styles.formDiv}>
-            <label className={styles.formLabel}> Subtotal: </label>
-                <span>$ </span>
-                <input className={styles.formInput} type = "text" inputMode="decimal" value = {subtotal} onChange = {e => {
-                    setSubtotal(e.target.value);
-                    setDefaultTaxTip(e.target.value);
-                }} />
+        <form className={styles.calculationForm} action="https://account.venmo.com">
+            <h1>Bill Divider</h1>
+            <div className={styles.formSection} id='billSummary'>
+                <div className={styles.formDiv}>
+                    <label className={styles.formLabel}> Subtotal: </label>
+                        <span>$ </span>
+                        <input className={styles.formInput} type = "text" inputMode="decimal" value = {subtotal} onChange = {e => {
+                            setSubtotal(e.target.value);
+                            setDefaultTaxTip(e.target.value);
+                        }} />
+                </div>
+                <div className={styles.formDiv}>
+                    <label className={styles.formLabel}> Tax (default 10.1%): </label>
+                    <span>$ </span>
+                    <input className={styles.formInput} type = "text" inputMode="decimal" value = {tax} onChange = {e => setTax(e.target.value)} />
+                </div>
+                <div className={styles.formDiv}>
+                    <label className={styles.formLabel}> Tip (default 15%): </label>
+                    <span>$ </span>
+                    <input className={styles.formInput} type = "text" inputMode="decimal" value = {tip} onChange = {e => setTip(e.target.value)} />
+                </div>
             </div>
-            <div className={styles.formDiv}>
-                <label className={styles.formLabel}> Tax (default 10.1%): </label>
-                <span>$ </span>
-                <input className={styles.formInput} type = "text" inputMode="decimal" value = {tax} onChange = {e => setTax(e.target.value)} />
+            
+            <div div className={styles.formSection} id='individualItem'>
+                <div className={styles.formDiv} id='individualItemInput'>
+                    <label className={styles.formLabel}> Individual Item Cost: </label>
+                    <span>$ </span>
+                    <input
+                        className={styles.formInput}
+                        type = "text"
+                        inputMode="decimal"
+                        value={IndividualItemCost}
+                        onChange={e => setIndividualItemCost(e.target.value)}
+                    />
+                    <button className={styles.addItemButton} type="button" onClick={() => {
+                        setIndividualItemList([
+                        ...IndividualItemList,
+                        { id: nextIdIndividual++, itemCost: IndividualItemCost }
+                        ]);
+                        setIndividualItemCost("");
+                    }}>Add</button>
+                    
+                </div>
+                <div className={styles.formList} id='individualItemList'>
+                    <label>Individual Item List:</label>
+                    <ul>
+                        {IndividualItemList.map(item => (
+                            <li key={item.id}>
+                                $ {item.itemCost}{' '}
+                                <button onClick={() => {
+                                    setIndividualItemList(
+                                        IndividualItemList.filter(a =>
+                                        a.id !== item.id
+                                        )
+                                    );
+                                }}>
+                                    Delete
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-            <div className={styles.formDiv}>
-                <label className={styles.formLabel}> Tip (default 15%): </label>
-                <span>$ </span>
-                <input className={styles.formInput} type = "text" inputMode="decimal" value = {tip} onChange = {e => setTip(e.target.value)} />
+
+            <div className={styles.formSection} id='communalItem'>
+                <div className={styles.formDiv} id='communalParticipantInput'>
+                    <label className={styles.formLabel}> # of Participants: </label>
+                    <input
+                        className={styles.participantInput}
+                        type = "text"
+                        inputMode="numeric"
+                        value={participant}
+                        onChange={e => setParticipant(e.target.value)}
+                    />
+                </div>
+                <div className={styles.formDiv} id='communalItemInput'>
+                    <label className={styles.formLabel}> Communal Item Cost: </label>
+                    <span>$ </span>
+                    <input
+                        className={styles.formInput}
+                        type = "text"
+                        inputMode="decimal"
+                        value={communalItemCost}
+                        onChange={e => setCommunalItemCost(e.target.value)}
+                    />
+                    <button className={styles.addItemButton} type="button" onClick={() => {
+                        setCommunalItemList([
+                        ...communalItemList,
+                        { id: nextIdCommunal++, communalItemCost: communalItemCost }
+                        ]);
+                        setCommunalItemCost("");
+                    }}>Add</button>
+                    
+                </div>
+                <div className={styles.formList} id='communalItemList'>
+                    <label>Communal Item List:</label>
+                    <ul>
+                        {communalItemList.map(item => (
+                            <li key={item.id}>
+                                $ {item.communalItemCost}{' '}
+                                <button onClick={() => {
+                                    setCommunalItemList(
+                                        communalItemList.filter(a =>
+                                        a.id !== item.id
+                                        )
+                                    );
+                                }}>
+                                    Delete
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-            <div className={styles.formDiv} id='individualItemInput'>
-                <label className={styles.formLabel}> Individual Item Cost: </label>
-                <span>$ </span>
-                <input
-                    className={styles.formInput}
-                    type = "text"
-                    inputMode="decimal"
-                    value={IndividualItemCost}
-                    onChange={e => setIndividualItemCost(e.target.value)}
-                />
-                <button className={styles.addItemButton} type="button" onClick={() => {
-                    setIndividualItemList([
-                    ...IndividualItemList,
-                    { id: nextIdIndividual++, itemCost: IndividualItemCost }
-                    ]);
-                    setIndividualItemCost("");
-                }}>Add</button>
-                
-            </div>
-            <div className={styles.formDiv} id='individualItemList'>
-                <label>Individual Item List:</label>
-                <ul>
-                    {IndividualItemList.map(item => (
-                        <li key={item.id}>
-                            $ {item.itemCost}{' '}
-                            <button onClick={() => {
-                                setIndividualItemList(
-                                    IndividualItemList.filter(a =>
-                                    a.id !== item.id
-                                    )
-                                );
-                            }}>
-                                Delete
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <div className={styles.formDiv} id='communalParticipantInput'>
-                <label className={styles.formLabel}> # of Participants: </label>
-                <input
-                    className={styles.participantInput}
-                    type = "text"
-                    inputMode="numeric"
-                    value={participant}
-                    onChange={e => setParticipant(e.target.value)}
-                />
-            </div>
-            <div className={styles.formDiv} id='communalItemInput'>
-                <label className={styles.formLabel}> Communal Item Cost: </label>
-                <span>$ </span>
-                <input
-                    className={styles.formInput}
-                    type = "text"
-                    inputMode="decimal"
-                    value={communalItemCost}
-                    onChange={e => setCommunalItemCost(e.target.value)}
-                />
-                <button className={styles.addItemButton} type="button" onClick={() => {
-                    setCommunalItemList([
-                    ...communalItemList,
-                    { id: nextIdCommunal++, communalItemCost: communalItemCost }
-                    ]);
-                    setCommunalItemCost("");
-                }}>Add</button>
-                
-            </div>
-            <div className={styles.formDiv} id='communalItemList'>
-                <label>Communal Item List:</label>
-                <ul>
-                    {communalItemList.map(item => (
-                        <li key={item.id}>
-                            $ {item.communalItemCost}{' '}
-                            <button onClick={() => {
-                                setCommunalItemList(
-                                    communalItemList.filter(a =>
-                                    a.id !== item.id
-                                    )
-                                );
-                            }}>
-                                Delete
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            
             <div className={styles.formDiv}>
                 <label className={styles.formLabel}> Amount Owed: </label>
                 $ {calculateAmount(parseFloat(subtotal), parseFloat(tax), parseFloat(tip), parseFloat(participant), IndividualItemList, communalItemList)}
             </div>
+
             <input type="submit" value="Go to Venmo" />
         </form>
     );

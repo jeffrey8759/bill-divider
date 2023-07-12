@@ -1,12 +1,24 @@
 .formDiv {
+    margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
     text-align: left;
 }
+
+.formSection{
+    border-bottom: 1px solid;
+}
+
+.formList {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
 .formLabel {
     display: inline-block;
     width: 200px;
 }
+
 .formInput {
     width: 80px;
     margin-right: 10px;
