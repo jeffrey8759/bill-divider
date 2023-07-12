@@ -12,6 +12,7 @@ export default function Form() {
     const [IndividualItemList, setIndividualItemList] = useState([]);
     const [communalItemCost, setCommunalItemCost] = useState('');
     const [communalItemList, setCommunalItemList] = useState([]);
+    const [showCommunalItemSection, setShowCommunalItemSection] = useState(false)
 
     function setDefaultTaxTip(subtotal) {
         setTax(parseFloat(subtotal * .101).toFixed(2));
@@ -19,7 +20,7 @@ export default function Form() {
     }
 
     return (
-        <form className={styles.calculationForm} action="https://account.venmo.com">
+        <form className={styles.calculationForm} action="account.venmo.com">
             <h1>Bill Divider</h1>
             <div className={styles.formSection} id='billSummary'>
                 <div className={styles.formDiv}>
@@ -66,7 +67,7 @@ export default function Form() {
                     <label>Individual Item List:</label>
                     <ul>
                         {IndividualItemList.map(item => (
-                            <li key={item.id}>
+                            <li className={styles.listItem} key={item.id}>
                                 $ {item.itemCost}{' '}
                                 <button onClick={() => {
                                     setIndividualItemList(
@@ -83,56 +84,65 @@ export default function Form() {
                 </div>
             </div>
 
-            <div className={styles.formSection} id='communalItem'>
-                <div className={styles.formDiv} id='communalParticipantInput'>
-                    <label className={styles.formLabel}> # of Participants: </label>
-                    <input
-                        className={styles.participantInput}
-                        type = "text"
-                        inputMode="numeric"
-                        value={participant}
-                        onChange={e => setParticipant(e.target.value)}
-                    />
+            <br/>
+            <button type="button" onClick={() => {
+                setShowCommunalItemSection(!showCommunalItemSection);
+            }}
+                >{ showCommunalItemSection ? "Hide Communal Items" : "Show Communal Items" }
+            </button>
+
+            { showCommunalItemSection ?
+                <div className={styles.formSection} id='communalItem'>
+                    <div className={styles.formDiv} id='communalParticipantInput'>
+                        <label className={styles.formLabel}> # of Participants: </label>
+                        <input
+                            className={styles.participantInput}
+                            type = "text"
+                            inputMode="numeric"
+                            value={participant}
+                            onChange={e => setParticipant(e.target.value)}
+                        />
+                    </div>
+                    <div className={styles.formDiv} id='communalItemInput'>
+                        <label className={styles.formLabel}> Communal Item Cost: </label>
+                        <span>$ </span>
+                        <input
+                            className={styles.formInput}
+                            type = "text"
+                            inputMode="decimal"
+                            value={communalItemCost}
+                            onChange={e => setCommunalItemCost(e.target.value)}
+                        />
+                        <button className={styles.addItemButton} type="button" onClick={() => {
+                            setCommunalItemList([
+                            ...communalItemList,
+                            { id: nextIdCommunal++, communalItemCost: communalItemCost }
+                            ]);
+                            setCommunalItemCost("");
+                        }}>Add</button>
+                        
+                    </div>
+                    <div className={styles.formList} id='communalItemList'>
+                        <label>Communal Item List:</label>
+                        <ul>
+                            {communalItemList.map(item => (
+                                <li className={styles.listItem} key={item.id}>
+                                    $ {item.communalItemCost}{' '}
+                                    <button onClick={() => {
+                                        setCommunalItemList(
+                                            communalItemList.filter(a =>
+                                            a.id !== item.id
+                                            )
+                                        );
+                                    }}>
+                                        Delete
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <div className={styles.formDiv} id='communalItemInput'>
-                    <label className={styles.formLabel}> Communal Item Cost: </label>
-                    <span>$ </span>
-                    <input
-                        className={styles.formInput}
-                        type = "text"
-                        inputMode="decimal"
-                        value={communalItemCost}
-                        onChange={e => setCommunalItemCost(e.target.value)}
-                    />
-                    <button className={styles.addItemButton} type="button" onClick={() => {
-                        setCommunalItemList([
-                        ...communalItemList,
-                        { id: nextIdCommunal++, communalItemCost: communalItemCost }
-                        ]);
-                        setCommunalItemCost("");
-                    }}>Add</button>
-                    
-                </div>
-                <div className={styles.formList} id='communalItemList'>
-                    <label>Communal Item List:</label>
-                    <ul>
-                        {communalItemList.map(item => (
-                            <li key={item.id}>
-                                $ {item.communalItemCost}{' '}
-                                <button onClick={() => {
-                                    setCommunalItemList(
-                                        communalItemList.filter(a =>
-                                        a.id !== item.id
-                                        )
-                                    );
-                                }}>
-                                    Delete
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
+            : null }
             
             <div className={styles.formDiv}>
                 <label className={styles.formLabel}> Amount Owed: </label>
@@ -143,6 +153,8 @@ export default function Form() {
         </form>
     );
 }
+
+
 
 function calculateAmount(subtotal, tax, tip, participant, individualItemList, communalItemList) {
     let individualItemCostSum = individualItemList.reduce((partialSum, a) => partialSum + parseFloat(a.itemCost), 0);

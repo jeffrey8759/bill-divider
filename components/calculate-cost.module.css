@@ -23,21 +23,27 @@
     width: 80px;
     margin-right: 10px;
     margin-left: 5px;
+    text-align: right;
 }
 
 .participantInput {
     width: 80px;
     margin-right: 10px;
     margin-left: 15px;
+    text-align: right;
 }
 
 .calculationForm {
     display: inline-block;
     outline: 2px solid;
-    padding: 20px;
+    padding: 10px 50px;
 }
 
 .formButton {
     margin-bottom: 10px;
     text-align: right;
+}
+
+.listItem {
+    margin: 10px;
 }
