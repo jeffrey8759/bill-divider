@@ -36,7 +36,7 @@
 .calculationForm {
     display: inline-block;
     border: 2px solid;
-    padding: 10px 50px;
+    padding: 25px;
 }
 
 .formButton {
@@ -46,4 +46,8 @@
 
 .listItem {
     margin: 10px;
+}
+
+.header {
+    margin-top: 0px;
 }
