@@ -146,7 +146,7 @@ export default function Form() {
             
             <div className={styles.formDiv}>
                 <label className={styles.formLabel}> Amount Owed: </label>
-                $ {calculateAmount(parseFloat(subtotal), parseFloat(tax), parseFloat(tip), parseFloat(participant), IndividualItemList, communalItemList)}
+                $ {calculateAmount(parseFloat(subtotal), parseFloat(tax), parseFloat(tip), parseFloat(participant), IndividualItemList, communalItemList).toFixed(2)}
             </div>
 
             <input type="submit" value="Go to Venmo" />
