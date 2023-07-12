@@ -35,6 +35,7 @@
 
 .calculationForm {
     display: inline-block;
+    border: 2px solid;
     padding: 10px 50px;
 }
 
