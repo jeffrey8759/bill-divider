@@ -1,14 +1,22 @@
 .formDiv {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
     text-align: left;
 }
 .formLabel {
     display: inline-block;
-    width: 150px;
+    width: 200px;
 }
 .formInput {
-    text-align: right;
     width: 80px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.participantInput {
+    width: 80px;
+    margin-right: 10px;
+    margin-left: 15px;
 }
 
 .calculationForm {
@@ -17,6 +25,7 @@
     padding: 20px;
 }
 
-.addItemButton {
+.formButton {
     margin-bottom: 10px;
+    text-align: right;
 }
