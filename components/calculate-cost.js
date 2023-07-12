@@ -20,7 +20,7 @@ export default function Form() {
     }
 
     return (
-        <form className={styles.calculationForm} action="account.venmo.com">
+        <form className={styles.calculationForm} action="https://account.venmo.com">
             <h1>Bill Divider</h1>
             <div className={styles.formSection} id='billSummary'>
                 <div className={styles.formDiv}>
