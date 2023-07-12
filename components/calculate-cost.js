@@ -19,7 +19,7 @@ export default function Form() {
     }
 
     return (
-        <form className={styles.calculationForm} action="http://venmo.com">
+        <form className={styles.calculationForm} action="https://apps.apple.com/us/app/venmo/">
             <div className={styles.formDiv}>
             <label className={styles.formLabel}> Subtotal: </label>
                 <span>$ </span>
