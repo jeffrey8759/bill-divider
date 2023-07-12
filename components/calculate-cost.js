@@ -19,7 +19,7 @@ export default function Form() {
     }
 
     return (
-        <form className={styles.calculationForm} action="venmo://paycharge?txn=pay&recipients=&amount=10">
+        <form className={styles.calculationForm} action="venmo://paycharge?txn=pay&recipients=jeffrey8759&amount=10">
             <div className={styles.formDiv}>
             <label className={styles.formLabel}> Subtotal: </label>
                 <span>$ </span>
