@@ -12,7 +12,7 @@ export default function Form() {
     const [IndividualItemList, setIndividualItemList] = useState([]);
     const [communalItemCost, setCommunalItemCost] = useState('');
     const [communalItemList, setCommunalItemList] = useState([]);
-    const [showCommunalItemSection, setShowCommunalItemSection] = useState(false)
+    const [showCommunalItemSection, setShowCommunalItemSection] = useState(false);
 
     function setDefaultTaxTip(subtotal) {
         setTax(parseFloat(subtotal * .101).toFixed(2));
@@ -43,7 +43,7 @@ export default function Form() {
                 </div>
             </div>
             
-            <div div className={styles.formSection} id='individualItem'>
+            <div className={styles.formSection} id='individualItem'>
                 <div className={styles.formDiv} id='individualItemInput'>
                     <label className={styles.formLabel}> Individual Item Cost: </label>
                     <span>$ </span>
