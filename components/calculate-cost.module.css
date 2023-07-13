@@ -1,53 +1,86 @@
-.formDiv {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    text-align: left;
-}
-
-.formSection{
-    border-bottom: 1px solid;
-}
-
-.formList {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.formLabel {
-    display: inline-block;
-    width: 200px;
-}
-
-.formInput {
-    width: 80px;
-    margin-right: 10px;
-    margin-left: 5px;
-    text-align: right;
-}
-
-.participantInput {
-    width: 80px;
-    margin-right: 10px;
-    margin-left: 15px;
-    text-align: right;
-}
-
 .calculationForm {
-    display: inline-block;
     border: 2px solid;
     padding: 25px;
+    max-width: 400px;
+}
+
+.header {
+    margin-top: 0px;
+}
+
+.inputSection{
+    margin-top:20px;
+    padding-bottom:20px;
+    width: 100%;
+    border-bottom: 1px solid;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputDiv {
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.label {
+    text-align: left;
+    flex: 2;
+    white-space: nowrap;
+    min-width: 0;
+    font-size: min(4vw, 15px);
+}
+
+.input {
+    min-width: 0;
+    margin-left: 10px;
+    text-align: right;
+    width: auto;
+    flex: 1;
 }
 
 .formButton {
+    margin-top: 10px;
     margin-bottom: 10px;
     text-align: right;
+}
+
+.itemList {
+    text-align: left;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .listItem {
     margin: 10px;
 }
 
-.header {
-    margin-top: 0px;
+.inputWithButton{
+    min-width: 0;
+    width: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.addItemInput{
+    min-width: 0;
+    margin-left: 10px;
+    text-align: right;
+    width: auto;
+    flex: 6;
+}
+
+.addItemButton{
+    flex: 1;
+    text-align: center;
+    font-size: min(2vw, 10px);
+}
+
+.inputContainer{
+    display: flex;
+    min-width: 0;
+    flex: 1;
 }
