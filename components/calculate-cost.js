@@ -1,85 +1,62 @@
 import { useState } from 'react';
 import styles from './calculate-cost.module.css'
 
-let nextIdIndividual = 0;
-let nextIdCommunal = 0;
+let nextItemId = 0;
+let nextSharedItemId = 0;
 export default function Form() {
     const [subtotal , setSubtotal] = useState('');
     const [tax, setTax] = useState('');
     const [tip, setTip] = useState('');
-    const [participant, setParticipant] = useState(2);
-    const [IndividualItemCost, setIndividualItemCost] = useState('');
-    const [IndividualItemList, setIndividualItemList] = useState([]);
-    const [communalItemCost, setCommunalItemCost] = useState('');
-    const [communalItemList, setCommunalItemList] = useState([]);
-    const [showCommunalItemSection, setShowCommunalItemSection] = useState(false);
+    const [itemCost, setItemCost] = useState('');
+    const [itemList, setItemList] = useState([]);
+    const [sharedItemCost, setSharedItemCost] = useState('');
+    const [shareeCount, setShareeCount] = useState('');
+    const [sharedItemList, setSharedItemList] = useState([]);
 
-    function setDefaultTaxTip(subtotal) {
+    function setDefaultTax(subtotal) {
         setTax(parseFloat(subtotal * .101).toFixed(2));
-        setTip(parseFloat(subtotal * .15).toFixed(2));
     }
 
     return (
         <form className={styles.calculationForm} action="venmo://paycharge">
             <h1 className={styles.header}>Bill Divider</h1>
-            <div className={styles.inputSection} id='billSummary'>
-                <div className={styles.inputDiv}>
-                    <label className={styles.label}> Subtotal: </label>
-                        <div className={styles.inputContainer}>
-                            <span>$ </span>
-                            <input className={styles.input} type = "text" inputMode="decimal" value = {subtotal} onChange = {e => {
-                                setSubtotal(e.target.value);
-                                setDefaultTaxTip(e.target.value);
-                            }} />
-                        </div>
-                </div>
-                <div className={styles.inputDiv}>
-                    <label className={styles.label}> Tax (default 10.1%): </label>
-                    <div className={styles.inputContainer}>
-                        <span>$ </span>
-                        <input className={styles.input} type = "text" inputMode="decimal" value = {tax} onChange = {e => setTax(e.target.value)} />
-                    </div>
-                </div>
-                <div className={styles.inputDiv}>
-                    <label className={styles.label}> Tip (default 15%): </label>
-                    <div className={styles.inputContainer}>
-                        <span>$ </span>
-                        <input className={styles.input} type = "text" inputMode="decimal" value = {tip} onChange = {e => setTip(e.target.value)} />
-                    </div>
-                </div>
-            </div>
             
-            <div className={styles.inputSection} id='individualItem'>
-                <div className={styles.inputDiv} id='individualItemInput'>
-                    <label className={styles.label}> Individual Item Cost: </label>
+            <div className={styles.inputSection} id='item'>
+                <h2>
+                    Individual Items
+                </h2>
+                <div className={styles.inputDiv} id='itemInput'>
+                    <label className={styles.label}> Item Cost: </label>
                     <div className={styles.inputContainer}>
                         <span>$ </span>
                         <input
                             className={styles.addItemInput}
                             type = "text"
                             inputMode="decimal"
-                            value={IndividualItemCost}
-                            onChange={e => setIndividualItemCost(e.target.value)}
+                            value={itemCost}
+                            onChange={e => setItemCost(e.target.value)}
                         >
                         </input>
-                        <button className={styles.addItemButton} type="button" onClick={() => {
-                            setIndividualItemList([
-                            ...IndividualItemList,
-                            { id: nextIdIndividual++, itemCost: IndividualItemCost }
-                            ]);
-                            setIndividualItemCost("");
-                        }}>Add</button>
                     </div>
                 </div>
-                <div className={styles.itemList} id='individualItemList'>
-                    <label>Individual Item List:</label>
+                <div className={styles.addItemDiv}>
+                    <button className={styles.addItemButton} type="button" onClick={() => {
+                        setItemList([
+                        ...itemList,
+                        { id: nextItemId++, itemCost: itemCost }
+                        ]);
+                        setItemCost("");
+                    }}>Add item to list</button>
+                </div>
+                <div className={styles.itemList} id='itemList'>
+                    <label className={styles.itemListLabel}>Item List:</label>
                     <ul>
-                        {IndividualItemList.map(item => (
+                        {itemList.map(item => (
                             <li className={styles.listItem} key={item.id}>
                                 $ {item.itemCost}{' '}
                                 <button onClick={() => {
-                                    setIndividualItemList(
-                                        IndividualItemList.filter(a =>
+                                    setItemList(
+                                        itemList.filter(a =>
                                         a.id !== item.id
                                         )
                                     );
@@ -92,74 +69,112 @@ export default function Form() {
                 </div>
             </div>
 
-            <br/>
-            <button className={styles.formButton} type="button" onClick={() => {
-                setShowCommunalItemSection(!showCommunalItemSection);
-            }}
-                >{ showCommunalItemSection ? "Hide Communal Items" : "Show Communal Items" }
-            </button>
-
-            { showCommunalItemSection ?
-                <div className={styles.inputSection} id='communalItem'>
-                    <div className={styles.inputDiv} id='communalParticipantInput'>
-                        <label className={styles.label}> # of Participants: </label>
-                        <div className={styles.inputContainer}>
-                            <span>&nbsp;&nbsp; </span>
-                            <input
-                                className={styles.input}
-                                type = "text"
-                                inputMode="numeric"
-                                value={participant}
-                                onChange={e => setParticipant(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div className={styles.inputDiv} id='communalItemInput'>
-                        <label className={styles.label}> Communal Item Cost: </label>
-                        <div className={styles.inputContainer}>
-                            <span>$ </span>
-                            <input
-                                className={styles.addItemInput}
-                                type = "text"
-                                inputMode="decimal"
-                                value={communalItemCost}
-                                onChange={e => setCommunalItemCost(e.target.value)}
-                            />
-                            <button className={styles.addItemButton} type="button" onClick={() => {
-                                setCommunalItemList([
-                                ...communalItemList,
-                                { id: nextIdCommunal++, communalItemCost: communalItemCost }
-                                ]);
-                                setCommunalItemCost("");
-                            }}>Add</button>
-                        </div>
-                    </div>
-                    <div className={styles.itemList} id='communalItemList'>
-                        <label>Communal Item List:</label>
-                        <ul>
-                            {communalItemList.map(item => (
-                                <li className={styles.listItem} key={item.id}>
-                                    $ {item.communalItemCost}{' '}
-                                    <button onClick={() => {
-                                        setCommunalItemList(
-                                            communalItemList.filter(a =>
-                                            a.id !== item.id
-                                            )
-                                        );
-                                    }}>
-                                        Delete
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+            <div className={styles.inputSection} id='sharedItem'>
+                <h2>
+                    Shared Items
+                </h2>
+                
+                <div className={styles.inputDiv} id='sharedItemInput'>
+                    <label className={styles.label}> Shared Item Cost: </label>
+                    <div className={styles.inputContainer}>
+                        <span>$ </span>
+                        <input
+                            className={styles.addItemInput}
+                            type = "text"
+                            inputMode="decimal"
+                            value={sharedItemCost}
+                            onChange={e => setSharedItemCost(e.target.value)}
+                        />
                     </div>
                 </div>
-            : null }
+                <div className={styles.inputDiv} id='shareeCountInput'>
+                    <label className={styles.label}> # of People Sharing: </label>
+                    <div className={styles.inputContainer}>
+                        <span>&nbsp;&nbsp; </span>
+                        <input
+                            className={styles.input}
+                            type = "text"
+                            inputMode="numeric"
+                            value={shareeCount}
+                            onChange={e => setShareeCount(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className={styles.addItemDiv}>
+                    <button className={styles.addItemButton} type="button" onClick={() => {
+                        setSharedItemList([
+                        ...sharedItemList,
+                        { id: nextSharedItemId++, sharedItemCost: sharedItemCost, shareeCount: shareeCount}
+                        ]);
+                        setSharedItemCost("");
+                    }}>Add Item To List</button>
+                </div>
+                <div className={styles.itemList} id='sharedItemList'>
+                    <label className={styles.itemListLabel}>Shared Item List:</label>
+                    <ul>
+                        {sharedItemList.map(item => (
+                            <li className={styles.listItem} key={item.id}>
+                                $ {item.sharedItemCost}, shared {item.shareeCount > 2 ? "among": "between"} {item.shareeCount} people.{' '}
+                                <button onClick={() => {
+                                    setSharedItemList(
+                                        sharedItemList.filter(a =>
+                                        a.id !== item.id
+                                        )
+                                    );
+                                }}>
+                                    Delete
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            <div className={styles.inputSection} id='billSummary'>
+                <h2>Bill Summary</h2>
+                <div className={styles.inputDiv}>
+                    <label className={styles.label}> Subtotal: </label>
+                        <div className={styles.inputContainer}>
+                            <span>$ </span>
+                            <input className={styles.input} type = "text" inputMode="decimal" value = {subtotal} onChange = {e => {
+                                setSubtotal(e.target.value);
+                                setDefaultTax(e.target.value);
+                            }} />
+                        </div>
+                </div>
+                <div className={styles.inputDiv}>
+                    <label className={styles.label}> Tax (Default 10.1%): </label>
+                    <div className={styles.inputContainer}>
+                        <span>$ </span>
+                        <input className={styles.input} type = "text" inputMode="decimal" value = {tax} onChange = {e => setTax(e.target.value)} />
+                        
+                    </div>
+                </div>
+                
+                <div className={styles.inputDiv}>
+                    <label className={styles.label}> Tip: </label>
+                    <div className={styles.inputContainer}>
+                        <span>$ </span>
+                        <input className={styles.input} type = "text" inputMode="decimal" value = {tip} onChange = {e => setTip(e.target.value)} />
+                    </div>
+                </div>
+                <div className={styles.selectionDiv}>
+                    <button className={styles.tipPercentageButton} type="button" onClick={() => {
+                        setTip(roundToHundredth(subtotal * 0.15));
+                    }}>15%</button>
+                    <button className={styles.tipPercentageButton} type="button" onClick={() => {
+                        setTip(roundToHundredth(subtotal * 0.18));
+                    }}>18%</button>
+                    <button className={styles.tipPercentageButton} type="button" onClick={() => {
+                        setTip(roundToHundredth(subtotal * 0.20));
+                    }}>20%</button>
+                </div>
+            </div>
 
             <br/>
             <div className={styles.inputDiv}>
-                <label className={styles.label}> Amount Owed: </label>
-                $ {calculateAmount(parseFloat(subtotal), parseFloat(tax), parseFloat(tip), parseFloat(participant), IndividualItemList, communalItemList).toFixed(2)}
+                <label className={styles.label}> <b>Amount Owed:</b> </label>
+                $ {calculateAmount(parseFloat(subtotal), parseFloat(tax), parseFloat(tip), itemList, sharedItemList).toFixed(2)}
             </div>
             
 
@@ -168,12 +183,10 @@ export default function Form() {
     );
 }
 
-
-
-function calculateAmount(subtotal, tax, tip, participant, individualItemList, communalItemList) {
-    let individualItemCostSum = individualItemList.reduce((partialSum, a) => partialSum + parseFloat(a.itemCost), 0);
-    let communalItemCostSum = communalItemList.reduce((partialSum, a) => partialSum + parseFloat(a.communalItemCost), 0);
-    let result = parseFloat(individualItemCostSum + communalItemCostSum / participant + (tax + tip) * ((individualItemCostSum + communalItemCostSum / participant) / subtotal));
+function calculateAmount(subtotal, tax, tip, itemList, sharedItemList) {
+    let itemCostSum = itemList.reduce((partialSum, a) => partialSum + parseFloat(a.itemCost), 0);
+    let sharedItemCostSum = sharedItemList.reduce((partialSum, a) => partialSum + parseFloat(a.sharedItemCost / a.shareeCount), 0);
+    let result = parseFloat(itemCostSum + sharedItemCostSum + (tax + tip) * ((itemCostSum + sharedItemCostSum) / subtotal));
     if (isNaN(result)){
         return 0;
     } else {
@@ -181,4 +194,6 @@ function calculateAmount(subtotal, tax, tip, participant, individualItemList, co
     } 
 }
 
-
+function roundToHundredth(amount) {
+    return parseFloat(amount).toFixed(2);
+}

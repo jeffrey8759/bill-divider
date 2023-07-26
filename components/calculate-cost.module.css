@@ -6,10 +6,12 @@
 
 .header {
     margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom:20px;
+    border-bottom: 1px solid;
 }
 
 .inputSection{
-    margin-top:20px;
     padding-bottom:20px;
     width: 100%;
     border-bottom: 1px solid;
@@ -30,14 +32,14 @@
     flex: 2;
     white-space: nowrap;
     min-width: 0;
-    font-size: min(4vw, 15px);
+    font-size: min(5vw, 20px);
 }
 
 .input {
     min-width: 0;
     margin-left: 10px;
     text-align: right;
-    width: auto;
+
     flex: 1;
 }
 
@@ -74,13 +76,29 @@
 }
 
 .addItemButton{
-    flex: 1;
     text-align: center;
-    font-size: min(2vw, 10px);
 }
 
 .inputContainer{
     display: flex;
     min-width: 0;
     flex: 1;
+}
+
+.selectionDiv{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.addItemDiv{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tipPercentageButton{
+    flex-grow: 1;
+}
+
+.itemListLabel{
+    font-size: min(5vw, 20px);
 }
